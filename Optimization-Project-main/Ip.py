@@ -1,6 +1,6 @@
 from ortools.linear_solver import pywraplp
 from time import perf_counter
-
+import sys
 # input data
 
 def input_data(filename):
@@ -11,16 +11,43 @@ def input_data(filename):
         for i in range(N):
             r = [int(x) for x in text.readline().split()]
             s.append([0] + r)
+
         g = [[0 for x in range(N + 1)]]
-        for j in range(1, M + 1):
+        for j in range(1, N + 1):
             r = [int(x) for x in text.readline().split()]
             g.append([0] + r)
         t = [0] + [int(x) for x in text.readline().split()]
     return N, M, K, a, b, c, d, e, f, s, g, t
 
 
-filename = 'data\data_size_20.txt'
-N, M, K, a, b, c, d, e, f, s, g, t = input_data(filename)
+def In():
+    [N,M,K] = [int(x) for x in sys.stdin.readline().split()]
+    [a,b,c,d,e,f] = [int(x) for x in sys.stdin.readline().split()]
+
+    s = [[0 for i in range(N+1)]]
+    for i in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        s.append([0] + r)
+
+    g = [[0 for x in range(M+1)]]
+    for j in range(1, N+1):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        g.append([0] + r)
+    t = [0] + [int(x) for x in sys.stdin.readline().split()]
+
+    return N, M, K, a, b, c, d, e, f, s, g, t
+
+# filename = 'data\\data_size_9.txt'
+
+# N, M, K, a, b, c, d, e, f, s, g, t = input_data(filename)
+N, M, K, a, b, c, d, e, f, s, g, t = In()
+# print(N,M,K)
+# print(a,b,c,d,e,f)
+# for i in range(N):
+#     print(*s[i])
+# for i in range(N):
+#     print(*g[i])
+# print(*t)
 
 start = perf_counter()
 
@@ -93,7 +120,7 @@ for m in range(1, K + 1):
 for m in range(1, K + 1):
     for i in range(1, N + 1):
         for j in range(1, M + 1):
-                cstr = solver.RowConstraint(0, g[j][i]/f + 1)
+                cstr = solver.RowConstraint(0, g[i][j]/f + 1)
                 cstr.SetCoefficient(z[i][m], 1)
                 cstr.SetCoefficient(y[j][m], 1)
 
@@ -155,8 +182,9 @@ for m in range(1, K + 1):
 for m in range(1, K + 1):
     for i in range(1, N + 1):
         for j in range(1, M + 1):
-            obj.SetCoefficient(p[i][j][m], g[j][i])
+            obj.SetCoefficient(p[i][j][m], g[i][j])
 obj.SetMaximization()
+
 rs = solver.Solve()
 end = perf_counter()
 
@@ -172,10 +200,14 @@ for m in range(1,K+1):
         if y[i][m].solution_value() == 1.0:
             pro_solution[i-1] = m
 
-
+print(N)
 print(*thesis_solution)
+print(M)
 print(*pro_solution)
-
+# 6
+# 2 2 1 1 1 2
+# 4
+# 1 2 1 2
 # output data
 # def print_solution():
 #     for m in range(1, K + 1):
