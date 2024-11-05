@@ -52,7 +52,7 @@ N, M, K, a, b, c, d, e, f, s, g, t = In()
 start = perf_counter()
 
 # SET VARIABLES
-solver = pywraplp.Solver.CreateSolver('SCIP')
+solver = pywraplp.Solver.CreateSolver('CBC')
 INF = solver.infinity()
 
 z = [[0 for i in range(K + 1)]]
