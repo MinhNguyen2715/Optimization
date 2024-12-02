@@ -10,14 +10,16 @@ def input_data(filename):
         for i in range(N):
             r = [int(x) for x in text.readline().split()]
             s.append([0] + r)
-        g = [[0 for x in range(N + 1)]]
-        for j in range(1, M + 1):
+        
+
+        g = [[0 for x in range(M + 1)]]
+        for j in range(1, N + 1):
             r = [int(x) for x in text.readline().split()]
             g.append([0] + r) 
         t = [0] + [int(x) for x in text.readline().split()]
     return N, M, K, a, b, c, d, e, f, s, g, t 
 
-N, M, K, a, b, c, d, e, f, s, g, t = input_data('data_size_50.txt')
+N, M, K, a, b, c, d, e, f, s, g, t = input_data('data_6.txt')
 
 class State():
     def __init__(self):
@@ -102,7 +104,7 @@ class State():
         for i in range(1,M+1):
             for j in range(1,N+1):
                 if self.project[j] == self.teacher[i]:
-                    sum += g[i][j]
+                    sum += g[j][i] #originally g[i][j]
         return sum
     
     def constraint3(self):
@@ -127,7 +129,7 @@ class State():
         for i in range(1,N+1):
             for j in range(1,M+1):
                 if self.project[i] == self.teacher[j]:
-                    if g[j][i]<f:
+                    if g[i][j]<f: #originally g[j][i]
                         sum += 1
         return sum
 
