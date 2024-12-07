@@ -1,7 +1,7 @@
 from ortools.sat.python import cp_model
 import time
 start = time.time()
-with open('data/HUSTack/data_6.txt','r') as f :
+with open('data/data_size_25.txt','r') as f :
   m = []
   for i in f:
     m.append(list(map(int, i.split())))
@@ -82,16 +82,39 @@ model.Maximize(sum(objective_terms))
 solver = cp_model.CpSolver()
 status = solver.Solve(model)
 
+# if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
+#     print(f'Total similarity = {solver.ObjectiveValue()}\n')
+#     for room in range(K):
+#       print ('committee:', room+1)
+#       for i in range(N):
+#         if solver.Value(x_bin[i][room]) == 1:
+#           print ('\tstudent',i+1)
+#       print()
+#       for j in range(M):
+#         if solver.Value(y_bin[j][room]) == 1:
+#           print ('\tprofessor',j+1)
+# end = time.time()
+# print(end-start)
+
+thesis = [0 for i in range(N)]
+prof = [0 for i in range(M)]
+
 if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-    print(f'Total similarity = {solver.ObjectiveValue()}\n')
+    # print(f'Total similarity = {solver.ObjectiveValue()}\n')
     for room in range(K):
-      print ('committee:', room+1)
-      for i in range(N):
-        if solver.Value(x_bin[i][room]) == 1:
-          print ('\tstudent',i+1)
-      print()
-      for j in range(M):
-        if solver.Value(y_bin[j][room]) == 1:
-          print ('\tprofessor',j+1)
-end = time.time()
-print(end-start)
+        # print('committee:', room + 1)
+        for i in range(N):
+            if solver.Value(x_bin[i][room]) == 1:
+                thesis[i] = room+1
+                # print('\tstudent', i + 1)
+        # print()
+        for j in range(M):
+            if solver.Value(y_bin[j][room]) == 1:
+                prof[j] = room+1
+                # print('\tprofessor', j + 1)
+
+
+print(N)
+print(*thesis)
+print(M)
+print(*prof)
