@@ -1,25 +1,25 @@
 import random as rd
-import math
+import math, sys
 import time
 start = time.time()
-def input_data(filename):
-    with open(filename) as text:
-        [N, M, K] = [int(x) for x in text.readline().split()]
-        [a, b, c, d, e, f] = [int(x) for x in text.readline().split()]
-        s = [[0 for x in range(N + 1)]]
-        for i in range(N):
-            r = [int(x) for x in text.readline().split()]
-            s.append([0] + r)
-        
+def In():
+    [N,M,K] = [int(x) for x in sys.stdin.readline().split()]
+    [a,b,c,d,e,f] = [int(x) for x in sys.stdin.readline().split()]
 
-        g = [[0 for x in range(M + 1)]]
-        for j in range(1, N + 1):
-            r = [int(x) for x in text.readline().split()]
-            g.append([0] + r) 
-        t = [0] + [int(x) for x in text.readline().split()]
-    return N, M, K, a, b, c, d, e, f, s, g, t 
+    s = [[0 for i in range(N+1)]]
+    for i in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        s.append([0] + r)
 
-N, M, K, a, b, c, d, e, f, s, g, t = input_data('data/data_size_9.txt')
+    g = [[0 for x in range(M+1)]]
+    for j in range(1, N+1):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        g.append([0] + r)
+    t = [0] + [int(x) for x in sys.stdin.readline().split()]
+
+    return N, M, K, a, b, c, d, e, f, s, g, t
+
+N, M, K, a, b, c, d, e, f, s, g, t = In()
 
 class State():
     def __init__(self):
