@@ -1,25 +1,26 @@
 import random as rd
-import math
+import math, sys
 import time
 start = time.time()
-def input_data(filename):
-    with open(filename) as text:
-        [N, M, K] = [int(x) for x in text.readline().split()]
-        [a, b, c, d, e, f] = [int(x) for x in text.readline().split()]
-        s = [[0 for x in range(N + 1)]]
-        for i in range(N):
-            r = [int(x) for x in text.readline().split()]
-            s.append([0] + r)
-        
+def In():
+    [N,M,K] = [int(x) for x in sys.stdin.readline().split()]
+    [a,b,c,d,e,f] = [int(x) for x in sys.stdin.readline().split()]
 
-        g = [[0 for x in range(M + 1)]]
-        for j in range(1, N + 1):
-            r = [int(x) for x in text.readline().split()]
-            g.append([0] + r) 
-        t = [0] + [int(x) for x in text.readline().split()]
-    return N, M, K, a, b, c, d, e, f, s, g, t 
+    s = [[0 for i in range(N+1)]]
+    for i in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        s.append([0] + r)
 
-N, M, K, a, b, c, d, e, f, s, g, t = input_data('data_6.txt')
+    g = [[0 for x in range(M+1)]]
+    for j in range(1, N+1):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        g.append([0] + r)
+    t = [0] + [int(x) for x in sys.stdin.readline().split()]
+
+    return N, M, K, a, b, c, d, e, f, s, g, t
+
+
+N, M, K, a, b, c, d, e, f, s, g, t = In()
 
 class State():
     def __init__(self):
@@ -68,7 +69,6 @@ class State():
             if self.check_number_2(can) < d:
                 self.teacher[self.check2()] = can
 
-        print(self.teacher)
     #check number of project
     def check_number(self,commitee):
         sum = 0
@@ -144,14 +144,12 @@ def Highest_Successor(state:State):
     total = -1000000000
     temp_prj = []
     temp_teacher = []
-    print(new.project)
     for i in range(1,N):
         for j in range(i+1,N+1):
             new.project[i],new.project[j] =  new.project[j],new.project[i]
             p = new.calvalue(N,M,K)
             if p > total:
                 total = p
-                # print(p)
                 temp_prj = new.project[:]
                 temp_teacher = new.teacher[:]
             new.project[i],new.project[j] =  new.project[j],new.project[i]
@@ -167,7 +165,6 @@ def HillClimbing():
         if neighbor.calvalue(N,M,K) <= current.calvalue(N,M,K) or neighbor.cal_penalty() > current.cal_penalty():
             return current
         current = neighbor
-        print(neighbor.cal_penalty())
 
 def iterated():
     try1 = HillClimbing()
@@ -178,12 +175,8 @@ def iterated():
     return try1
 
 
-# ini = State()
-# ini.initial_state()
-# Highest_Successor(ini)
-# print(ini.calvalue(N,M,K))
 solution = iterated()
-print(solution.calvalue(N,M,K))
-# print(ini.cal_penalty())
-end = time.time()
-print(end-start)
+print(N)
+print(*solution.project[1:])
+print(M)
+print(*solution.teacher[1:])
