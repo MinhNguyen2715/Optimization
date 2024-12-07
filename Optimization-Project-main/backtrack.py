@@ -1,7 +1,24 @@
 import time
+import sys
 
 start = time.time()
 
+def In():
+    [N,M,K] = [int(x) for x in sys.stdin.readline().split()]
+    [a,b,c,d,e,f] = [int(x) for x in sys.stdin.readline().split()]
+
+    s = [[0 for i in range(N+1)]]
+    for i in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        s.append([0] + r)
+
+    g = [[0 for x in range(M+1)]]
+    for j in range(1, N+1):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        g.append([0] + r)
+    t = [0] + [int(x) for x in sys.stdin.readline().split()]
+
+    return N, M, K, a, b, c, d, e, f, s, g, t
 
 def input_data(filename):
     with open(filename) as text:
@@ -11,17 +28,18 @@ def input_data(filename):
         for i in range(N):
             r = [int(x) for x in text.readline().split()]
             s.append([0] + r)
+
         g = [[0 for x in range(N + 1)]]
-        for j in range(1, M + 1):
+        for j in range(1, N + 1):
             r = [int(x) for x in text.readline().split()]
             g.append([0] + r)
         t = [0] + [int(x) for x in text.readline().split()]
     return N, M, K, a, b, c, d, e, f, s, g, t
 
-N, M, K, a, b, c, d, e, f, s, g, t = input_data('data/data_size_13.txt')
+N, M, K, a, b, c, d, e, f, s, g, t = input_data('data/HUSTack/data_6.txt')
 
 project = [0 for i in range(N + 1)]
-teacher = [0 for i in range(M + 1)]
+teacher = [0 for i in range(M+ 1)]
 objective = 0
 project_answer = []
 teacher_answer = []
@@ -74,7 +92,7 @@ def constraint5(N, M, K, f):
     for i in range(1, N + 1):
         for j in range(1, M + 1):
             if project[i] == teacher[j]:
-                if g[j][i] < f:
+                if g[i][j] < f:
                     return False
     return True
 
@@ -89,7 +107,7 @@ def calvalue(N, M, K):
     for i in range(1, M + 1):
         for j in range(1, N + 1):
             if project[j] == teacher[i]:
-                value += g[i][j]
+                value += g[j][i]
 
     return value
 
@@ -125,8 +143,19 @@ def Try2(k):
 
 
 Try1(1)
+end=time.time()
 print(objective)
-end = time.time()
-print(project_answer)
-print(teacher_answer)
-print(end - start)
+print(N)
+thesis_solution = [None for i in range(N)]
+pro_solution = [None for i in range(M)]
+
+for i in range(1,N+1):
+    thesis_solution[i-1] = project_answer[i]
+
+for i in range(1,M+1):
+    pro_solution[i-1] = teacher_answer[i]
+
+print(*thesis_solution)
+print(M)
+print(*pro_solution)
+print(end-start)

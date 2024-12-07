@@ -1,7 +1,7 @@
 from ortools.sat.python import cp_model
 import time
 start = time.time()
-with open('data\data_size_20.txt','r') as f :
+with open('data/HUSTack/data_6.txt','r') as f :
   m = []
   for i in f:
     m.append(list(map(int, i.split())))
@@ -9,7 +9,7 @@ with open('data\data_size_20.txt','r') as f :
   [a, b, c, d, e, f] = m[1]
   t = m[-1]
   s = (m[2:2+N])
-  g = (m[N+2:N+M+2])
+  g = (m[N+2:N+N+2])
 
 model = cp_model.CpModel()
 
@@ -64,7 +64,7 @@ for m in range(M):
   for i in range(N):
     model.Add(y_int[m]==x_int[i]).OnlyEnforceIf(prof[m][i])
     model.Add(y_int[m]!=x_int[i]).OnlyEnforceIf(prof[m][i].Not())
-    model.Add(f<=g[m][i]).OnlyEnforceIf(prof[m][i])
+    model.Add(f<=g[i][m]).OnlyEnforceIf(prof[m][i])
 
 objective_terms = []
 for i in range(N-1):
@@ -73,7 +73,7 @@ for i in range(N-1):
 
 for i in range(M):
     for j in range(N):
-        objective_terms.append(g[i][j] * prof[i][j])
+        objective_terms.append(g[j][i] * prof[i][j])
 
 #set parameter
 model.Maximize(sum(objective_terms))

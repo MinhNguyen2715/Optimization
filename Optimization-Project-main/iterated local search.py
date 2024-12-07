@@ -19,7 +19,6 @@ def In():
 
     return N, M, K, a, b, c, d, e, f, s, g, t
 
-
 N, M, K, a, b, c, d, e, f, s, g, t = In()
 
 class State():
