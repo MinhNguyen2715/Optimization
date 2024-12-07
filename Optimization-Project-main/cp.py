@@ -1,15 +1,26 @@
 from ortools.sat.python import cp_model
 import time
+import sys
 start = time.time()
-with open('data/data_size_25.txt','r') as f :
-  m = []
-  for i in f:
-    m.append(list(map(int, i.split())))
-  [N,M,K] = m[0]
-  [a, b, c, d, e, f] = m[1]
-  t = m[-1]
-  s = (m[2:2+N])
-  g = (m[N+2:N+N+2])
+
+def In():
+    [N,M,K] = [int(x) for x in sys.stdin.readline().split()]
+    [a,b,c,d,e,f] = [int(x) for x in sys.stdin.readline().split()]
+
+    s = []
+    for i in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        s.append(r)
+
+    g = []
+    for j in range(N):
+        r = [int(x) for x in sys.stdin.readline().split()]
+        g.append(r)
+    t = [int(x) for x in sys.stdin.readline().split()]
+
+    return N, M, K, a, b, c, d, e, f, s, g, t
+
+N, M, K, a, b, c, d, e, f, s, g, t = In()
 
 model = cp_model.CpModel()
 
@@ -82,19 +93,6 @@ model.Maximize(sum(objective_terms))
 solver = cp_model.CpSolver()
 status = solver.Solve(model)
 
-# if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-#     print(f'Total similarity = {solver.ObjectiveValue()}\n')
-#     for room in range(K):
-#       print ('committee:', room+1)
-#       for i in range(N):
-#         if solver.Value(x_bin[i][room]) == 1:
-#           print ('\tstudent',i+1)
-#       print()
-#       for j in range(M):
-#         if solver.Value(y_bin[j][room]) == 1:
-#           print ('\tprofessor',j+1)
-# end = time.time()
-# print(end-start)
 
 thesis = [0 for i in range(N)]
 prof = [0 for i in range(M)]
