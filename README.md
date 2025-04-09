@@ -1,5 +1,5 @@
 # Optimization Problem: Thesis Defense Jury Assignment
-In our problem, we need to divide N theses and M professors into K committees.\
+In our problem, we need to divide N theses and M professors into K committees.
 * The instructor for each thesis i is called t(i)
 * The similarity between 2 theses is called s(i, j)
 * The similarity between thesis and professor is called g(i, j)
